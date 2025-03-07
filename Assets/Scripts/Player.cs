@@ -10,6 +10,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _speed = 3.5f;
 
+    // variable named laserPrefab to hold prefab laser
+    [SerializeField]
+    private GameObject _laserPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +25,14 @@ public class Player : MonoBehaviour
     void Update()
     {
         calculateMovement();
+
+        // press a space key to fire a prefab laser object, to create a laser which moves up
+        
+        if(Input.GetKeyDown(KeyCode.Space ))
+        {
+            Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+        }
+
     }
     void calculateMovement()
     {
