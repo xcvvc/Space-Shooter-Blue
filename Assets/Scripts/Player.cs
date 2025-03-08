@@ -9,6 +9,11 @@ public class Player : MonoBehaviour
     // move Vector3 _speed 3.5f meters per second
     [SerializeField]
     private float _speed = 3.5f;
+    private Vector3 _laserStart = new Vector3(0, 0.7f, 0);
+    [SerializeField]
+    private float _fireRate = 0.5f;  // space between firing
+    private float _canfire = -1f;   // negative to okay firing starting out
+
 
     // variable named laserPrefab to hold prefab laser
     [SerializeField]
@@ -27,10 +32,14 @@ public class Player : MonoBehaviour
         calculateMovement();
 
         // press a space key to fire a prefab laser object, to create a laser which moves up
+        // look at elapsed time from previous fire
+        // spawn new fire
+        // reset elapsed time
+
         
-        if(Input.GetKeyDown(KeyCode.Space ))
+        if(Input.GetKeyDown(KeyCode.Space ) && ( Time.time > _canfire))
         {
-            Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            FireLaser();
         }
 
     }
@@ -65,5 +74,10 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(11, transform.position.y, 0);
         }
+    }
+    void FireLaser()
+    {
+        _canfire = Time.time + _fireRate;
+        Instantiate(_laserPrefab, transform.position + _laserStart, Quaternion.identity);
     }
 }
