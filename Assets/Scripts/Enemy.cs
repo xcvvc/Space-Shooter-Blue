@@ -23,14 +23,14 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         calculateMovement();
+    }
+    void calculateMovement()
+    {
+
         // move down 4m per second after prefab instantiation.
         // check for survive position at bottom of screen, respawn at top (no destroy, reuse)
         // respawn at top with random horizontal position
 
-
-    }
-    void calculateMovement()
-    {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
         // if higher than _outOfView destroy laser !! up is positive
@@ -41,13 +41,8 @@ public class Enemy : MonoBehaviour
             
         }
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        //Debug.Log("Hit: " + other.transform.name);
-
-        // if 'other' contains Player, destroy this (Enemy), damage Player - Player first
-        
-        // if (other.transform.name == "Player")
         if (other.tag == "Player")
         {
             // Destroy(GameObject.FindWithTag("Enemy"));
@@ -57,12 +52,10 @@ public class Enemy : MonoBehaviour
             if(player != null)
             {
                 player.Damage();
-                // other.transform.GetComponent<Player>().Damage();
             }
             
         }
-        // if 'other' contains Laser, destroy this (Enemy), destroy Laser - Laser first
-        // if (other.transform.name == "Laser(Clone)")
+
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
