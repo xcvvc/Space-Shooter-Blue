@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -20,7 +19,6 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("starting coroutine");
         coroutine = SpawnRoutine(5.0f);
         StartCoroutine(coroutine);
     }
@@ -47,11 +45,6 @@ public class SpawnManager : MonoBehaviour
             // yield 5 seconds
             
             yield return new WaitForSeconds(waitTime);
-            Debug.Log("waiting" + Time.time);
-            
-
-
-
  
         }
     }

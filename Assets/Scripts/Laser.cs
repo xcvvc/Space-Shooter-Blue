@@ -1,28 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 8.0f;
     [SerializeField]
-    private float _lowView = 7.0f;
+    private float _topEdge = 6.0f;
 
 
     // Update is called once per frame
     void Update()
     {
-        calculateMovement();
-    }
-    void calculateMovement()
-    {
         transform.Translate(Vector3.up * _speed * Time.deltaTime);
 
-        // if higher than _outOfView destroy laser !! up is positive
-        if (transform.position.y > _lowView)
+        if (transform.position.y > _topEdge)
         {
-            Destroy(this.gameObject);
+            // if this has a parent, destroy parent
+            Laser tripleLaser = this.GetComponentInParent<Laser>();
+            if( tripleLaser != null )
+            {
+                Destroy(tripleLaser.gameObject);
+            }
+
+
+                Destroy(this.gameObject);
         }
     }
 }

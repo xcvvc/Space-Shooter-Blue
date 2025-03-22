@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
     float _speed = 4.0f;
-    float _bottomEdge = -4.0f;
-    float _topEdge = 8.0f;
-    float _leftEdge = -6.0f;
-    float _rightEdge = 6.0f;
+    float _bottomEdge = -3.5f;
+    float _topEdge = 5.5f;
+    float _leftEdge = -8.0f;
+    float _rightEdge = 8.0f;
     float _horizontalRandom;
 
     // Start is called before the first frame update
@@ -22,9 +19,9 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        calculateMovement();
+        CalculateMovement();
     }
-    void calculateMovement()
+    void CalculateMovement()
     {
 
         // move down 4m per second after prefab instantiation.
@@ -46,14 +43,14 @@ public class Enemy : MonoBehaviour
         if (other.tag == "Player")
         {
             // Destroy(GameObject.FindWithTag("Enemy"));
-            Destroy(this.gameObject);
+        
 
             Player player = other.transform.GetComponent<Player>();
             if(player != null)
             {
                 player.Damage();
             }
-            
+            Destroy(this.gameObject);
         }
 
         if (other.tag == "Laser")
