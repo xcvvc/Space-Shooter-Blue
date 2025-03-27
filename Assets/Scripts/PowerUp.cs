@@ -3,7 +3,11 @@
 
 public class PowerUp : MonoBehaviour
 {
+    // IDs for each Powerup prefab (each feature)
+    [SerializeField]
+    private int _powerupID;  // 0 for Triple Shot, 1 = Speed, 2 = Shield
 
+    
     [SerializeField]
     private float _speed = 3.0f;
     float _bottomEdge = -3.5f;
@@ -31,7 +35,6 @@ public class PowerUp : MonoBehaviour
         }
     }
 
-    // OnTriggerCollision
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.tag == "Player")
@@ -40,13 +43,24 @@ public class PowerUp : MonoBehaviour
             Player player = other.transform.GetComponent<Player>();
             if (player != null)
             {
-                player.TripleShotActive();
-                //                Player player = other.transform.GetComponent<Player>();
+                switch (_powerupID)
+                {
+                    case 0:
+                        player.TripleShotActive();
+                        break;
+                    case 1:
+                        player.SpeedBoostActive();
+                        break;
+                    case 2:
+                        player.ShieldsActive();
+                        break;
+                    default:
+                        ;
+                        break;
+                }
             }
 
             Destroy(this.gameObject);
         }
     }
-    // Only be collectable by the Player (HINT: Use Tags
-    // on collision destroy.
 }

@@ -10,10 +10,12 @@ public class Enemy : MonoBehaviour
     float _rightEdge = 8.0f;
     float _horizontalRandom;
 
+    private Player _player;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        _player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -56,6 +58,21 @@ public class Enemy : MonoBehaviour
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
+
+         //   GameObject gamePlayer = GameObject.FindWithTag("Player");
+         //   if( gamePlayer != null )
+         //   {
+         //       Player playerScore = gamePlayer.transform.GetComponent<Player>();
+         //     if( playerScore != null )
+         //     {
+         //        playerScore.AddScore();
+         //     }
+         //   }
+
+            if( _player )
+            {
+                _player.AddScore(10);
+            }
             Destroy(this.gameObject);
         }
 

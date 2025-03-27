@@ -16,13 +16,14 @@ public class Laser : MonoBehaviour
         if (transform.position.y > _topEdge)
         {
             // if this has a parent, destroy parent
-            Laser tripleLaser = this.GetComponentInParent<Laser>();
-            if( tripleLaser != null )
+            // Laser tripleLaser = this.GetComponentInParent<Laser>();
+            // if( tripleLaser != null )  // or maybe transform.parent != null
+
+            if( transform.parent != null )
             {
-                Destroy(tripleLaser.gameObject);
+                // Destroy(tripleLaser.gameObject); // or maybe transform.parent.gameObject
+                Destroy(transform.parent.gameObject);
             }
-
-
                 Destroy(this.gameObject);
         }
     }

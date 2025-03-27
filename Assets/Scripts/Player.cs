@@ -1,10 +1,24 @@
 ﻿using System.Collections;
+using System.Collections.Specialized;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Player : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 3.5f;
+    [SerializeField]
+    private float _speedMultiplier = 2.0f;
+    [SerializeField]
+    private float _speedBoostTimeWindow = 5.0f;
+
+    private bool _isSpeedBoostActive;
+    private bool _areShieldsActive = false;
+
+    // variable reference to the Shield visualizer
+    [SerializeField]
+    private GameObject _shieldVisualizer;
+
     private float _bottomEdge = -2.5f;
     // private float _topEdge = 8.0f;
     private float _leftEdge = -8.0f;
@@ -19,9 +33,7 @@ public class Player : MonoBehaviour
     private float _fireRate = 0.5f;  // space between firing
     private float _canFire = -1f;   // negative to okay firing starting out
 
-
-    [SerializeField]
-    private bool _isTripleShotActive = false;
+    private bool _isTripleShotActive;
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -30,9 +42,13 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnManager;
+    private UIManager _uIManager;
 
     [SerializeField]
     private float _canTripleFireTimeWindow = 5.0f;
+
+    [SerializeField]
+    private int _score = 0;
 
 
     // Start is called before the first frame update
@@ -40,12 +56,19 @@ public class Player : MonoBehaviour
     {
         // find gamecomponent and assign type
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        _uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        
         if (_spawnManager == null)
         {
             Debug.LogError("Spawn_Manager.SpawnManager is missing.");
         }
 
+        if ( _uIManager == null )
+        {
+            Debug.LogError("Canvas.UI_Manager is missing.");
+        }
         transform.position = new Vector3(0, 0, 0);
+        _shieldVisualizer.SetActive(false);
     }
 
     // Update is called once per frame
@@ -68,7 +91,9 @@ public class Player : MonoBehaviour
         verticalInput = Input.GetAxis("Vertical");
 
         position = new Vector3(horizontalInput, verticalInput, 0);
+        
         transform.Translate(position * _speed * Time.deltaTime);
+       
 
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, _bottomEdge + 0.5f, 0), 0);
 
@@ -97,6 +122,18 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        // if shields is active, do nothing
+        // deactivate shields
+        // return
+        if( _areShieldsActive )
+        {
+            _areShieldsActive = false;
+            // disable the visualizer
+            _shieldVisualizer.SetActive(false);
+
+            return;
+        }
+
         _lives -= 1;
 
         if (_lives < 1)
@@ -111,14 +148,46 @@ public class Player : MonoBehaviour
     public void TripleShotActive()
     {
         _isTripleShotActive = true;
-        // start the power down coroutine for triple shot
+
         StartCoroutine(TripleShotPowerDownRoutine(_canTripleFireTimeWindow));
     }
-    // IEnumerator TripleShotPowerDownRoutine   wait 5 seconds and set to false
 
-    IEnumerator TripleShotPowerDownRoutine(float _TripleFireRemainingTime)
+    IEnumerator TripleShotPowerDownRoutine(float _tripleFireRemainingTime)
     {
-        yield return new WaitForSeconds( _TripleFireRemainingTime );
+        yield return new WaitForSeconds( _tripleFireRemainingTime );
         _isTripleShotActive = false;
+    }
+
+    public void SpeedBoostActive()
+    {
+        _isSpeedBoostActive = true;
+        StartCoroutine(SpeedActive(_speedBoostTimeWindow));
+    }
+    IEnumerator SpeedActive(float _speedBoostRemainingTime )
+    {
+        _speed *= _speedMultiplier;
+        yield return new WaitForSeconds(_speedBoostRemainingTime);
+        _speed /= _speedMultiplier;
+        _isSpeedBoostActive = false;
+
+    }
+    public void ShieldsActive()
+    {
+        _areShieldsActive = true;
+        // enable the shields visualizer
+        _shieldVisualizer.SetActive(true);
+    }
+
+    public void AddScore(int points)
+    {
+        _score += points;
+
+        //        _uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        //        if (_uIManager != null)
+        //        {
+        //            _uIManager.ChangeScore(_score);
+        //        }
+        _uIManager.UpdateScore(_score);
+    
     }
 }
