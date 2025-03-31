@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManager;
     private UIManager _uIManager;
 
+
     [SerializeField]
     private float _canTripleFireTimeWindow = 5.0f;
 
@@ -57,6 +58,7 @@ public class Player : MonoBehaviour
         // find gamecomponent and assign type
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
         
         if (_spawnManager == null)
         {
@@ -69,6 +71,7 @@ public class Player : MonoBehaviour
         }
         transform.position = new Vector3(0, 0, 0);
         _shieldVisualizer.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -135,6 +138,8 @@ public class Player : MonoBehaviour
         }
 
         _lives -= 1;
+        _uIManager.UpdateLives(_lives);  // also handles UI text display
+
 
         if (_lives < 1)
         {
@@ -181,13 +186,13 @@ public class Player : MonoBehaviour
     public void AddScore(int points)
     {
         _score += points;
-
-        //        _uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-        //        if (_uIManager != null)
-        //        {
-        //            _uIManager.ChangeScore(_score);
-        //        }
-        _uIManager.UpdateScore(_score);
+        
+//        _uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+//        if (_uIManager != null)
+//        {
+//            _uIManager.ChangeScore(_score);
+//        }
+        _uIManager.UpdateScore( _score );
     
     }
 }
