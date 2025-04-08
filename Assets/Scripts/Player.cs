@@ -15,6 +15,12 @@ public class Player : MonoBehaviour
     private bool _isSpeedBoostActive;
     private bool _areShieldsActive = false;
 
+    [SerializeField]
+    private GameObject _rightEngine;
+    [SerializeField]
+    private GameObject _leftEngine;
+
+
     // variable reference to the Shield visualizer
     [SerializeField]
     private GameObject _shieldVisualizer;
@@ -138,6 +144,18 @@ public class Player : MonoBehaviour
         }
 
         _lives -= 1;
+
+        // if lives is 2 enable right engine
+        // if lives is 1 enable left engine
+        if( _lives == 2 )
+        {
+            _rightEngine.SetActive(true);
+        }
+        if( _lives == 1 )
+        {
+            _leftEngine.SetActive(true);
+        }
+
         _uIManager.UpdateLives(_lives);  // also handles UI text display
 
 
