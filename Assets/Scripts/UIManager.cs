@@ -45,12 +45,6 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.R) &&  _restartActive)
-        //{
-          //  Debug.Log("pressed 'r' with _restartActive");
-            //_restartActive = false;
-        //    SceneManager.LoadScene("Game");
-        //}
 
     }
     public void UpdateScore( int playerScore )

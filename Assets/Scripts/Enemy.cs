@@ -11,11 +11,25 @@ public class Enemy : MonoBehaviour
     float _horizontalRandom;
 
     private Player _player;
+    // handle to animator component
+    [SerializeField]
+    private Animator _animator;
 
     // Start is called before the first frame update
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        // null check player
+        if ( _player == null )
+        {
+            Debug.LogError("Player._player is null.");
+        }
+        // assign the component to anim
+        _animator = GetComponent<Animator>();
+        if ( _animator == null )
+        {
+            Debug.LogError("Animator._animator is null.");
+        }
     }
 
     // Update is called once per frame
@@ -52,28 +66,27 @@ public class Enemy : MonoBehaviour
             {
                 player.Damage();
             }
-            Destroy(this.gameObject);
+            // trigger the anim
+            _animator.SetTrigger("OnEnemyDeath");
+
+            _speed = 0;
+            Destroy(this.gameObject, 2.8f );
         }
 
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
 
-         //   GameObject gamePlayer = GameObject.FindWithTag("Player");
-         //   if( gamePlayer != null )
-         //   {
-         //       Player playerScore = gamePlayer.transform.GetComponent<Player>();
-         //     if( playerScore != null )
-         //     {
-         //        playerScore.AddScore();
-         //     }
-         //   }
 
             if( _player )
             {
                 _player.AddScore(10);
             }
-            Destroy(this.gameObject);
+            // trigger the anim
+            _animator.SetTrigger("OnEnemyDeath");
+
+            _speed = 0;
+            Destroy(this.gameObject, 2.8f );
         }
 
     }

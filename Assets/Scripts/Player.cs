@@ -187,11 +187,6 @@ public class Player : MonoBehaviour
     {
         _score += points;
         
-//        _uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-//        if (_uIManager != null)
-//        {
-//            _uIManager.ChangeScore(_score);
-//        }
         _uIManager.UpdateScore( _score );
     
     }
