@@ -15,6 +15,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private Animator _animator;
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,7 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("Player._player is null.");
         }
+
         // assign the component to anim
         _animator = GetComponent<Animator>();
         if ( _animator == null )
@@ -58,8 +61,6 @@ public class Enemy : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            // Destroy(GameObject.FindWithTag("Enemy"));
-        
 
             Player player = other.transform.GetComponent<Player>();
             if(player != null)

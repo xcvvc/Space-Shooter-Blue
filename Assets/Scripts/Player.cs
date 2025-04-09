@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
 
     // reference variable to store audio clip
     [SerializeField]
-    private AudioClip _lazerSoundClip;
+    private AudioClip _laserSoundClip;
     private AudioSource _audioSource;
 
 
@@ -87,10 +87,10 @@ public class Player : MonoBehaviour
         }
         else
         {
-            _audioSource.clip = _lazerSoundClip;
+            _audioSource.clip = _laserSoundClip;
         }
 
-            transform.position = new Vector3(0, 0, 0);
+        transform.position = new Vector3(0, 0, 0);
         _shieldVisualizer.SetActive(false);
 
     }
