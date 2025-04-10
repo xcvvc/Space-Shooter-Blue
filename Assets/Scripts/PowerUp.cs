@@ -17,10 +17,14 @@ public class PowerUp : MonoBehaviour
     // float _horizontalRandom;
 
 
+    // [SerializeField]
+    // private AudioClip _clip;    used for AudioSource.PlayClipAtPoint(_clip, transform.postion):
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
+
     }
 
     // Update is called once per frame
@@ -41,6 +45,9 @@ public class PowerUp : MonoBehaviour
         {
             // communicate with the player script, through other
             Player player = other.transform.GetComponent<Player>();
+
+            // AudioSource.PlayClipAtPoint(_clip, transform.position); plays with low volume
+
             if (player != null)
             {
                 switch (_powerupID)

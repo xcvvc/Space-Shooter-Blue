@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
 
     // reference variable to store audio clip
     [SerializeField]
-    private AudioClip _laserSoundClip;
+    private AudioClip _laserSoundClip, _powerUpSoundClip;
     private AudioSource _audioSource;
 
 
@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            _audioSource.clip = _laserSoundClip;
+            ;// _audioSource.clip = _laserSoundClip;
         }
 
         transform.position = new Vector3(0, 0, 0);
@@ -143,7 +143,9 @@ public class Player : MonoBehaviour
             Instantiate(_laserPrefab, transform.position + _laserStart, Quaternion.identity);
         }
 
+
         // play the laser audio clip
+        _audioSource.clip = _laserSoundClip;
         _audioSource.Play();
     }
 
@@ -189,6 +191,7 @@ public class Player : MonoBehaviour
     public void TripleShotActive()
     {
         _isTripleShotActive = true;
+        PlayPowerUpSoundClip();
 
         StartCoroutine(TripleShotPowerDownRoutine(_canTripleFireTimeWindow));
     }
@@ -202,6 +205,8 @@ public class Player : MonoBehaviour
     public void SpeedBoostActive()
     {
         _isSpeedBoostActive = true;
+        PlayPowerUpSoundClip();
+
         StartCoroutine(SpeedActive(_speedBoostTimeWindow));
     }
     IEnumerator SpeedActive(float _speedBoostRemainingTime )
@@ -215,6 +220,8 @@ public class Player : MonoBehaviour
     public void ShieldsActive()
     {
         _areShieldsActive = true;
+        PlayPowerUpSoundClip();
+
         // enable the shields visualizer
         _shieldVisualizer.SetActive(true);
     }
@@ -225,5 +232,10 @@ public class Player : MonoBehaviour
         
         _uIManager.UpdateScore( _score );
     
+    }
+    public void PlayPowerUpSoundClip()
+    {
+        _audioSource.clip = _powerUpSoundClip;
+        _audioSource.Play();
     }
 }

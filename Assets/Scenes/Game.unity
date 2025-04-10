@@ -323,6 +323,7 @@ MonoBehaviour:
   _canTripleFireTimeWindow: 5
   _score: 0
   _laserSoundClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
+  _powerUpSoundClip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
 --- !u!212 &512651335
 SpriteRenderer:
   m_ObjectHideFlags: 0
