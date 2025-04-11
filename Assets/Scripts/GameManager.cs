@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
         }
 
         // if Escape key pressed, then quit application
-        if( Input.GetKey(Escape))
+        if( Input.GetKey(KeyCode.Escape))
         {
             Application.Quit();
         }
