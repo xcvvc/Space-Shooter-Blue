@@ -24,7 +24,7 @@ public class Laser : MonoBehaviour
                 // Destroy(tripleLaser.gameObject); // or maybe transform.parent.gameObject
                 Destroy(transform.parent.gameObject);
             }
-                Destroy(this.gameObject);
+            Destroy(this.gameObject);
         }
     }
 }

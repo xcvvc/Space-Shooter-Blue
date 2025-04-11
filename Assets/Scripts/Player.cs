@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Specialized;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class Player : MonoBehaviour
 {
@@ -36,7 +34,7 @@ public class Player : MonoBehaviour
 
     private Vector3 _laserStart = new Vector3(0, 1.05f, 0);  // position above Player object
     [SerializeField]
-    private float _fireRate = 0.5f;  // space between firing
+    private float _fireRate = 0.3f;  // space between firing
     private float _canFire = -1f;   // negative to okay firing starting out
 
     private bool _isTripleShotActive;
@@ -87,7 +85,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            ;// _audioSource.clip = _laserSoundClip;
+            _audioSource.clip = _laserSoundClip;
         }
 
         transform.position = new Vector3(0, 0, 0);

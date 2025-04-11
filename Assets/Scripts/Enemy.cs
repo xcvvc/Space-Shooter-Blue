@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Runtime.CompilerServices;
+using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
@@ -10,18 +11,30 @@ public class Enemy : MonoBehaviour
     float _rightEdge = 8.0f;
     float _horizontalRandom;
 
+    [SerializeField]
+    private GameObject _laserEnemyPrefab;
+
+    private Vector3 _laserStart = new Vector3(0, -0.75f, 0);  // position above Player object
+    [SerializeField]
+    private float _fireRate;  // space between firing 3 to 7 seconds random set in Start()
+    private float _canFire = -1f;   // negative to okay firing starting out
+    private bool _enemyAlive = true;
+
     private Player _player;
     // handle to animator component
     [SerializeField]
-    private Animator _animator;
+    private Animator _anim;
 
 
-    private AudioSource _audioSource;
+
+    private AudioSource _audioSource;   // clip is explosion sound, set in Unity editor
     
 
     // Start is called before the first frame update
     void Start()
     {
+        _fireRate = Random.Range(3.0f, 7.0f);
+
         _player = GameObject.Find("Player").GetComponent<Player>();
         _audioSource = GetComponent<AudioSource>();
 
@@ -32,10 +45,10 @@ public class Enemy : MonoBehaviour
         }
 
         // assign the component to anim
-        _animator = GetComponent<Animator>();
-        if ( _animator == null )
+        _anim = GetComponent<Animator>();
+        if ( _anim == null )
         {
-            Debug.LogError("Animator._animator is null.");
+            Debug.LogError("Animator._anim is null.");
         }
     }
 
@@ -43,6 +56,14 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         CalculateMovement();
+
+        if ((Time.time > _canFire) && _enemyAlive)      // _enemyAlive set to true after collision but before Destroy()
+        {
+            _fireRate = Random.Range(3.0f, 5.0f);
+            _canFire = Time.time + _fireRate;
+            Instantiate( _laserEnemyPrefab, transform.position + _laserStart, Quaternion.identity);
+        }
+
     }
     void CalculateMovement()
     {
@@ -72,12 +93,13 @@ public class Enemy : MonoBehaviour
                 player.Damage();
             }
             // trigger the anim
-            _animator.SetTrigger("OnEnemyDeath");
+            _anim.SetTrigger("OnEnemyDeath");
 
             _speed = 0;
 
             _audioSource.Play();
 
+            _enemyAlive = false;
             Destroy(this.gameObject, 2.8f );
         }
 
@@ -91,12 +113,14 @@ public class Enemy : MonoBehaviour
                 _player.AddScore(10);
             }
             // trigger the anim
-            _animator.SetTrigger("OnEnemyDeath");
+            _anim.SetTrigger("OnEnemyDeath");
 
             _speed = 0;
 
             _audioSource.Play();
 
+            Destroy(GetComponent<Collider2D>());  // prevents a second hit and score while exploding
+            _enemyAlive = false;                  // prevents firing laser
             Destroy(this.gameObject, 2.8f );
         }
 
