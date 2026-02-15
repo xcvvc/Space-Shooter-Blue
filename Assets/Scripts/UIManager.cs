@@ -10,6 +10,11 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField]
     private Text _scoreText;
+    [SerializeField]
+    private Text _thruster_Remaining_Text;
+    [SerializeField]
+    private Text _thruster_Seconds_Text;
+
 
     [SerializeField]
     private Image _livesImage; // reference pointing to Sprite used in _liveSprites 
@@ -30,6 +35,9 @@ public class UIManager : MonoBehaviour
     {
 
         _scoreText.text = "Score: " + 0;
+
+  //      _thruster_Remaining_Text.gameObject.SetActive(false);
+  //      _thruster_Seconds_Text.gameObject.SetActive(false);
 
         _gameOverText.gameObject.SetActive(false);
 
@@ -60,6 +68,9 @@ public class UIManager : MonoBehaviour
             GameOverSequence();
         }
     }
+
+    
+
 
     void GameOverSequence()
     {

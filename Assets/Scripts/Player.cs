@@ -10,8 +10,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _speedBoostTimeWindow = 5.0f;
 
-    private bool _isSpeedBoostActive;
+    private bool _isSpeedBoostActive = false;
+    private int _remainingThrusterCharge;
     private bool _areShieldsActive = false;
+    private bool _leftShiftSpeed = false;
 
     [SerializeField]
     private GameObject _rightEngine;
@@ -103,6 +105,19 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && (Time.time > _canFire))
         {
             FireLaser();
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && (!_leftShiftSpeed))
+        {
+            Debug.Log("Left Shift down down");
+            _speed *= _speedMultiplier;
+            _leftShiftSpeed = true;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift) && (_leftShiftSpeed))
+        {
+            Debug.Log("Up Up Up");
+            _leftShiftSpeed = false;
+            _speed /= _speedMultiplier;
         }
 
     }
@@ -206,6 +221,8 @@ public class Player : MonoBehaviour
         PlayPowerUpSoundClip();
 
         StartCoroutine(SpeedActive(_speedBoostTimeWindow));
+        StartCoroutine(UIThrusters(_speedBoostTimeWindow));
+        StartCoroutine(UIThrusterPiechart(_speedBoostTimeWindow));
     }
     IEnumerator SpeedActive(float _speedBoostRemainingTime )
     {
@@ -215,6 +232,24 @@ public class Player : MonoBehaviour
         _isSpeedBoostActive = false;
 
     }
+    IEnumerator UIThrusters(float _speedBoostRemainingTime )
+    {
+    //    _uIManager.
+        
+        _remainingThrusterCharge = (int) _speedBoostRemainingTime;
+        while (_remainingThrusterCharge > 0)
+        {
+            _remainingThrusterCharge--;
+            yield return new WaitForSeconds(1);
+            Debug.Log("Thruster Boost: " + _remainingThrusterCharge);
+        }
+    }
+    IEnumerator UIThrusterPiechart(float _speedBoostRemainingTime)
+    {
+        // size of array of piechart, spread across length of remaining time
+        yield return new WaitForSeconds((float) _speedBoostRemainingTime / 56.0f);
+    }
+
     public void ShieldsActive()
     {
         _areShieldsActive = true;
