@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _speedMultiplier = 2.0f;
     [SerializeField]
-    private float _speedBoostTimeWindow = 5.0f;
+    private float  _speedBoostTimeWindow = 5.0f;
 
     private bool _isSpeedBoostActive = false;
     private int _remainingThrusterCharge;
