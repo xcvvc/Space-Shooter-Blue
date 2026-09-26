@@ -10,7 +10,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float  _speedBoostTimeWindow = 5.0f;
 
-    private bool _isSpeedBoostActive = false;
+
+// set false in SpeedActive()  set true in: SetSpeedActive()
+    private bool _isSpeedBoostActive; 
+
     private int _remainingThrusterCharge;
     private bool _areShieldsActive = false;
     private bool _leftShiftSpeed = false;
